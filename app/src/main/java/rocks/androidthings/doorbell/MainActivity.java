@@ -1,6 +1,6 @@
 package rocks.androidthings.doorbell;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,11 +15,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
-    private final String BUTTON_GPIO_PIN = "BCM6";
     private static final String TAG = "MainActivity";
-    private static final String BASE_URL = "http://06551871.ngrok.io";
+    private static final String BASE_URL = "https://your-url.com";
 
     private Button mButton;
     private Doorbell mDoorbellApi;
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         initialiseDoorbellButton();
 
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initialiseDoorbellButton() {
         try {
+            String BUTTON_GPIO_PIN = "BCM6";
             mButton = new Button(BUTTON_GPIO_PIN,
                     Button.LogicState.PRESSED_WHEN_LOW);
             mButton.setOnButtonEventListener(mButtonCallback);
