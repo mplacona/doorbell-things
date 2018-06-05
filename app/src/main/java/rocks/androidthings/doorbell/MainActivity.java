@@ -18,10 +18,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
-    private static final String BASE_URL = "https://your-url.com";
+    private static final String BASE_URL = "https://hesitant-beds-1131.twil.io";
 
-    private Button mButton;
-    private Doorbell mDoorbellApi;
+    private Button button;
+    private Doorbell doorbellApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
-        mDoorbellApi = retrofit.create(Doorbell.class);
+        doorbellApi = retrofit.create(Doorbell.class);
     }
 
     /**
@@ -42,10 +42,10 @@ public class MainActivity extends Activity {
      */
     private void initialiseDoorbellButton() {
         try {
-            String BUTTON_GPIO_PIN = "BCM6";
-            mButton = new Button(BUTTON_GPIO_PIN,
+            String BUTTON_GPIO_PIN = "BCM5";
+            button = new Button(BUTTON_GPIO_PIN,
                     Button.LogicState.PRESSED_WHEN_LOW);
-            mButton.setOnButtonEventListener(mButtonCallback);
+            button.setOnButtonEventListener(mButtonCallback);
         } catch (IOException e) {
             Log.e(TAG, "button driver error", e);
         }
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
                     if (pressed) {
                         // Doorbell rang!
                         Log.d(TAG, "button pressed");
-                        Call<String> call = mDoorbellApi.startCall();
+                        Call<String> call = doorbellApi.startCall();
                         call.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
@@ -80,9 +80,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mButton != null) {
+        if (button != null) {
             try {
-                mButton.close();
+                button.close();
             } catch (IOException e) {
                 Log.e(TAG, "button driver error", e);
             }

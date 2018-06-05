@@ -3,6 +3,7 @@
     package="rocks.androidthings.doorbell">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.things.permission.USE_PERIPHERAL_IO" />
 
     <application>
         <uses-library android:name="com.google.android.things" />
